@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Code Conversion and Debugging</title>
+</head>
+<body>
+  <h1>Code Conversion</h1>
+  <textarea id="codeInput" rows="10" cols="50" placeholder="Enter your code here"></textarea>
+  <button onclick="convertCode()">Convert Code</button>
+  <div id="conversionResult"></div>
+
+  <h1>Code Debugging</h1>
+  <textarea id="debugInput" rows="10" cols="50" placeholder="Enter your code here"></textarea>
+  <button onclick="debugCode()">Debug Code</button>
+  <div id="debuggingResult"></div>
+
+  <h1>Code Quality Check</h1>
+  <textarea id="qualityInput" rows="10" cols="50" placeholder="Enter your code here"></textarea>
+  <button onclick="checkCodeQuality()">Check Code Quality</button>
+  <div id="qualityCheckResult"></div>
+
+  <script>
+    async function convertCode() {
+      const code = document.getElementById('codeInput').value;
+      const targetLanguage = 'JavaScript'; // Change this to the desired target language
+      const response = await fetch('http://localhost:3000/convert-code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code, targetLanguage }),
+      });
+
+      const data = await response.json();
+      document.getElementById('conversionResult').innerText = data.convertedCode;
+    }
+
+    async function debugCode() {
+      const code = document.getElementById('debugInput').value;
+      const response = await fetch('http://localhost:3000/debug-code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }),
+      });
+
+      const data = await response.json();
+      document.getElementById('debuggingResult').innerText = data.debuggingOutput;
+    }
+
+    async function checkCodeQuality() {
+      const code = document.getElementById('qualityInput').value;
+      const response = await fetch('http://localhost:3000/check-code-quality', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }),
+      });
+
+      const data = await response.json();
+      document.getElementById('qualityCheckResult').innerText = data.qualityCheckResult;
+    }
+  </script>
+</body>
+</html>
